@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  这里是子页面
+</body>
+<script>
+  // 监听test.html发来的数据，延迟1秒返回数据
+  window.addEventListener('message', (event) => {
+    setTimeout(() => {
+      console.log(event, 'event');
+      event.source.postMessage('给外面的数据', event)
+    },1000)
+  })
+</script>
+</html>

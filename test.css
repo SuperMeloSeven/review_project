@@ -1,0 +1,17 @@
+div {
+  width: 500px;
+  height: 500px;
+}
+
+.demo {
+  width: 200px;
+  height: 200px;
+  background: #f8a838;
+  container: inline-size;
+}
+
+@container (inline-size > 300px) {
+  a {
+    background: #e87070;
+  }
+}
