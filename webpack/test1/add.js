@@ -7,4 +7,4 @@
 var exports = {}
 (function (exports, code) {
   eval(code)
-})(exports, 'exports.default = function (a, b) { return a + b }')
+}(exports, 'exports.default = function (a, b) { return a + b }'))
