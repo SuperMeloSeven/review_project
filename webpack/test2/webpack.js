@@ -56,6 +56,23 @@ class Compilation {
       dependencies: [], //它依赖的模块
       _source: "", //该模块的代码信息
     };
+
+     // 6.2.3 找到对应的 `Loader` 对源代码进行翻译和替换
+    let loaders = []
+    let { rules = [] } = this.options.module
+    rules.forEach(rule => {
+      let { test } = rule
+      // 如果模块的路径和正则匹配，就把此规则对应的loader添加到loader数组中
+      if (modulePath.match(test)) {
+        loaders.push(...rules.use)
+      }
+    })
+
+    // 自右向左对模块进行转译
+    sourceCode = loaders.reduceRight((code, loader) => {
+      return loader(code);
+    }, sourceCode);
+
     return module;
   }
 
@@ -76,7 +93,8 @@ class Compilation {
       this.fileDependencies.push(entryFilePath);
       //6.2 得到入口模块的的 `module` 对象 （里面放着该模块的路径、依赖模块、源代码等）
       let entryModule = this.buildModule(entryName, entryFilePath);
-      // TODO: 5.6还需要看下 
+      //6.3 将生成的入口文件 `module` 对象 push 进 `this.modules` 中
+      this.modules.push(entryModule);
     }
 
     //这里开始做编译工作，编译成功执行callback
