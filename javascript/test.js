@@ -58,7 +58,7 @@ const input = [1, 2, 3, 4, 5, 6].map((i) =>
 // console.log(module, '---module');
 // console.log(require, '---require');
 
-const { obj, setVal } = require('./16-CJS.js')
-console.log(obj, '---obj');
-setVal(101)
-console.log(obj, '---obj');
+// const { obj, setVal } = require('./16-CJS.js')
+// console.log(obj, '---obj');
+// setVal(101)
+// console.log(obj, '---obj');
