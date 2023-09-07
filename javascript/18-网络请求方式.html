@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- <a href="http://test-pms.shands.cn/login">测试a标签</a>
+  <img src="../../other/lazyload/images/2.png"> -->
+
+  <button id="btn">获取数据</button>
+  <p id="content">原内容展示</p>
+</body>
+<script>
+const btnElement = document.querySelector('#btn')
+const contentElement = document.querySelector('#content')
+
+btnElement.onclick = function () {
+  // 原生xhr
+  // const xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')
+  // xhr.open('POST', 'http://localhost:3000/api/xhr', true)
+  // xhr.setRequestHeader("token", "888888888")
+  // xhr.send()
+  // xhr.onload = function () {
+  //   if (xhr.status === 200) {
+  //     contentElement.innerHTML = xhr.responseText
+  //     console.log(xhr, '---xhr');
+  //   }
+  // }
+
+  // fetch
+  // fetch('http://localhost:3000/api/fetch', {
+  //   headers: {
+  //     token: '66666666666'
+  //   }
+  // }).then(res => {
+  //   console.log(res, '---res');
+  //   return res.text()
+  // }).then(data => {
+  //   console.log(data, '---data');
+  //   contentElement.innerText = data;
+  // }).catch(err => {
+  //   console.log(err)
+  // })
+
+  // webSocket
+  const socket = new WebSocket('ws://localhost:3000/webSocketService');
+
+  socket.onopen = function () {
+    console.log('连接已建立');
+  };
+
+  socket.onmessage = function (event) {
+    console.log(event, '---event');
+    const data = event.data;
+    console.log('接收到服务器发送的消息:', data);
+    contentElement.innerText = data;
+  };
+
+  socket.onclose = function () {
+    console.log('连接已关闭');
+  };
+  // 心跳
+  setInterval(() => {
+    socket.send('ping');
+  }, 3000);
+
+  // sse
+  // 创建一个EventSource对象，连接到服务器端的SSE端点
+  // const eventSource = new EventSource('http://localhost:3000/api/sse');
+
+  // // 监听服务器端发送的消息
+  // eventSource.onmessage = (event) => {
+  //   console.log(event.data);
+  //   const data = event.data
+  //   contentElement.innerText = data;
+  //   // 在这里处理服务器端发送的消息
+  // };
+
+  // // 监听连接关闭事件
+  // eventSource.onclose = () => {
+  //   console.log('SSE connection closed');
+  // };
+
+  // // 监听错误事件
+  // eventSource.onerror = (error) => {
+  //   console.error('SSE error:', error);
+  // };
+
+  // beacon
+  // const data = {
+  //   event: '按钮点击',
+  //   timestamp: new Date().toISOString(),
+  //   userAgent: navigator.userAgent
+  // };
+  // // 调用发送数据的函数, 返回true
+  // const res = navigator.sendBeacon('http://localhost:3000/api/beacon', JSON.stringify(data))
+  // contentElement.innerText = res
+}
+</script>
+</html>
