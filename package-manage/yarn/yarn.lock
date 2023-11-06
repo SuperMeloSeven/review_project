@@ -2,14 +2,7 @@
 # yarn lockfile v1
 
 
-"@remix-run/router@1.10.0":
-  version "1.10.0"
-  resolved "https://registry.npmmirror.com/@remix-run/router/-/router-1.10.0.tgz#e2170dc2049b06e65bbe883adad0e8ddf8291278"
-  integrity sha512-Lm+fYpMfZoEucJ7cMxgt4dYt8jLfbpwRCzAjm9UgSLOkmlqo9gupxt6YX3DY0Fk155NT9l17d/ydi+964uS9Lw==
-
-react-router@^6.17.0:
-  version "6.17.0"
-  resolved "https://registry.npmmirror.com/react-router/-/react-router-6.17.0.tgz#7b680c4cefbc425b57537eb9c73bedecbdc67c1e"
-  integrity sha512-YJR3OTJzi3zhqeJYADHANCGPUu9J+6fT5GLv82UWRGSxu6oJYCKVmxUcaBQuGm9udpWmPsvpme/CdHumqgsoaA==
-  dependencies:
-    "@remix-run/router" "1.10.0"
+"@huzl/test-func-demo-package@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@huzl/test-func-demo-package/-/test-func-demo-package-1.0.0.tgz#cab7ab942f847933421adea1d46f4c82b3012076"
+  integrity sha512-g9OLCnMA48SbxDlgLL1ZX8h3WAdTqRJqUOj4YrVNDBfDa6CfFfdYyew6tuHTpulXVSVrSiDhPjP7KZL47K0BMw==

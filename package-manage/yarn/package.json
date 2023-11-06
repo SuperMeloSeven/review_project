@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react-router": "^6.17.0"
+    "@huzl/test-func-demo-package": "^1.0.0"
   }
 }
