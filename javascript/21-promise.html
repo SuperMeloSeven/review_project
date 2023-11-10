@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+//   function requestData(url) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (url === "http://coderwhy.org") {
+//         // 发送成功了
+//         resolve("一组成功数据")
+//       } else {
+//         // 发送失败了
+//         reject("请求url错误")
+//       }
+//     }, 1000);
+//   })
+// }
+
+
+// // main.js
+// const promise = requestData("http://coderwhy.org")
+// promise.then((res) => {
+//   console.log(res)
+// }).catch((err) => {
+//   console.log(err)
+// })
+
+// new Promise((resolve, reject) => {
+//   resolve('已决议')
+//   resolve('已拒绝')
+// }).then((res) => {
+//   console.log(res, 'res');
+// }).catch((err) => {
+//   console.log(err, 'err');
+// })
+
+
+// new Promise((resolve, reject) => {
+//   resolve(new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve("第二个Promise的resolve")
+//     }, 3000);
+//   }))
+// }).then(res => {
+//   console.log("res:", res)
+// }).catch(err => {
+//   console.log("err:", err)
+// })
+
+// new Promise((resolve, reject) => {
+//   resolve({
+//     then: function(resolve_, reject_) {
+//       // resolve_("222")
+//       reject_("err message")
+//     }
+//   })
+// }).then(res => {
+//   console.log("res:", res)
+// }).catch(err => {
+//   console.log("err:", err)
+// })
+
+// new Promise((resolve) => {
+//   resolve("第一个Promise的resolve")
+// }).then(res => {
+//   console.log("res1:", res)
+//   // 1.直接返回一个值
+//   return "then function fulfilled"
+// }).then(res => {
+//   console.log("res2:", res)
+//   // 2.返回Promise
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve("new promise fulfilled")
+//     }, 2000);
+//   })
+// }).then(res => {
+//   console.log("res3:", res)
+//   // 3.抛出一个异常
+//   throw new Error("error message")
+// }).catch(err => {
+//   console.log("err:", err.message)
+// })
+
+
+// new Promise((resolve, reject) => {
+//   reject("第一个Promise的reject")
+// }).catch(err => {
+//   console.log(err, '---err1');
+//   // throw new Error("error message")
+//   return new Promise((resolve, reject) => {
+//     reject('error message')
+//   })
+// }).then(res => {
+//   console.log(res, '---res');
+// }).catch(err => {
+//   console.log(err, '---err2');
+// })
+
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("111")
+  }, 1000);
+})
+
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("222")
+  }, 2000);
+})
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("333")
+  }, 3000);
+})
+
+Promise.any([p1, p2, p3]).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log("err:", err)
+})
+</script>
+</html>

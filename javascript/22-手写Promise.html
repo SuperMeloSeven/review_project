@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    class TestPromise {
+      constructor(executor) {
+        this.status = 'pending'
+
+        this.value = undefined
+
+        this.reason = undefined
+
+        this.onFulfilledCallbacks = []
+
+        this.onRejectedCallbacks = []
+
+        const resolve = (value) => {
+          if (this.status === 'pending') {
+            this.status = 'fulfilled'
+            this.value = value
+            this.onFulfilledCallbacks.forEach(fn => fn())
+          }
+        }
+
+        const reject = (reason) => {
+          if (this.status === 'pending') {
+            this.status = 'rejected'
+            this.reason = reason
+            this.onRejectedCallbacks.forEach(fn => fn())
+          }
+        }
+
+        try {
+          executor(resolve, reject)
+        } catch (error) {
+          reject(error)
+        }
+      }
+    }
+
+    function resolvePromise(promise2, x , resolve, reject) {
+      if (promise2 === x) {
+        return reject(new TypeError('Chaining cycle detected for promise'))
+      }
+
+      let called = false
+
+      if (x instanceof TestPromise) {
+        x.then(y => {
+          resolvePromise(promise2, y, resolve, reject)
+        }, reason => {
+          reject(reason)
+        })
+      } else if (x !== null && (typeof x === 'object' || typeof x === 'function')) {
+        try {
+          const then = x.then
+          if (typeof then === 'function') {
+            then.call(x, y => {
+              if (called) return
+              called = true
+              resolvePromise(promise2, y, resolve, reject)
+            }, reason => {
+              if (called) return
+              called = true
+              reject(reason)
+            })
+          } else {
+            resolve(x)
+          }
+        } catch (error) {
+          if (called) return
+          called = true
+          reject(error)
+        }
+      } else {
+        resolve(x)
+      }
+    }
+  </script>
+</body>
+</html>
