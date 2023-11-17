@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <p id="setData">初始值</p>
+
+  <script>
+    function _request() {
+      return new Promise((res) => setTimeout(() => {
+        res(123)
+      }, 500))
+    }
+
+    // 原本想使用 class extends Promise 来实现
+    // 结果一直出现这个问题 https://github.com/nodejs/node/issues/13678
+    function createPauseControllerPromise() {
+      const result = {
+        isPause: true,
+        resolveWhenResume: false,
+        resolve() { },
+        pause() {
+          this.isPause = true
+        },
+        resume() {
+          if (!this.isPause) return
+          this.isPause = false
+          if (this.resolveWhenResume) {
+            this.resolve()
+          }
+        },
+        promise: Promise.resolve()
+      }
+
+      const promise = new Promise((res) => {
+        result.resolve = res
+      })
+
+      result.promise = promise
+
+      return result
+    }
+
+    function requestWithPauseControl(request) {
+      const controller = createPauseControllerPromise()
+
+      const controlRequest = request().then((data) => {
+        if (!controller.isPause) controller.resolve()
+        controller.resolveWhenResume = controller.isPause
+        return data
+      })
+
+      const result = Promise.all([controlRequest, controller.promise])
+        .then(data => {
+          console.log(data, '---接口请求的数据');
+          return data[0]
+        })
+
+      result.finally(() => controller.resolve())
+
+      result.pause = controller.pause.bind(controller);
+      result.resume = controller.resume.bind(controller);
+
+      return result
+    }
+
+    const result = requestWithPauseControl(_request)
+    console.log(result.then(data => console.log(data, '---请求接口')));
+
+    if (Math.random() > 0.5) { result.pause() }
+
+    // result.then(data => {
+    //   document.getElementById('setData').innerHTML = data
+    //   console.log(data, '---未pause的data')
+    // })
+
+    const resumeReq = () => {
+      result.resume()
+      result.then(data => {
+        document.getElementById('setData').innerHTML = data
+        console.log(data, '---恢复请求的data')
+      })
+    }
+
+    setTimeout(() => {
+      resumeReq()
+    }, 3000)
+  </script>
+</body>
+
+</html>
