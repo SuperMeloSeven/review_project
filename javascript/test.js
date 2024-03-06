@@ -24,37 +24,37 @@
 // console.log(JSON.stringify(testObj));
 // console.log(JSON.stringify(testObj, result));
 
-const queue = [];
-let activeCount = 0;
-let concurrency = 2;
-const run = async (resolve, fn) => {
-  activeCount++;
-  const result = (async () => fn())();
-  resolve(result);
+// const queue = [];
+// let activeCount = 0;
+// let concurrency = 2;
+// const run = async (resolve, fn) => {
+//   activeCount++;
+//   const result = (async () => fn())();
+//   resolve(result);
 
-  await result;
+//   await result;
 
-  console.log("打印***任务周期");
-};
+//   console.log("打印***任务周期");
+// };
 
-const enqueue = (fn, ...args) => {
-  return new Promise((resolve) => {
-    console.log(run.bind(undefined, resolve, fn, args), '---run.bind(undefined, resolve, fn, args)');
-    queue.push(run.bind(undefined, resolve, fn, args));
-    (async () => {
-      await Promise.resolve();
-      if (activeCount < concurrency && queue.length > 0) {
-        queue.pop()();
-      }
-    })();
-  });
-};
+// const enqueue = (fn, ...args) => {
+//   return new Promise((resolve) => {
+//     console.log(run.bind(undefined, resolve, fn, args), '---run.bind(undefined, resolve, fn, args)');
+//     queue.push(run.bind(undefined, resolve, fn, args));
+//     (async () => {
+//       await Promise.resolve();
+//       if (activeCount < concurrency && queue.length > 0) {
+//         queue.pop()();
+//       }
+//     })();
+//   });
+// };
 
-const input = [1, 2, 3, 4, 5, 6].map((i) =>
-  enqueue(() => {
-    console.log(i);
-  })
-);
+// const input = [1, 2, 3, 4, 5, 6].map((i) =>
+//   enqueue(() => {
+//     console.log(i);
+//   })
+// );
 // console.log(module, '---module');
 // console.log(require, '---require');
 
@@ -62,3 +62,11 @@ const input = [1, 2, 3, 4, 5, 6].map((i) =>
 // console.log(obj, '---obj');
 // setVal(101)
 // console.log(obj, '---obj');
+
+const _new = function (fn, ...args) {
+  const obj = Object.create(fn.prototype);
+  // obj.__proto__ = fn.prototype;
+  const result = fn.apply(obj, args);
+
+  return result instanceof Object ? result : obj;
+}
