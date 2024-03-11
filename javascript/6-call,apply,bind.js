@@ -47,7 +47,6 @@ Function.prototype.myBind = function (context) {
   const fn = this
 
   return function Fn() {
-    console.log([...args, ...arguments], '[...args, ...arguments]');
     return fn.apply(
       this instanceof Fn ? this : context,
       [...args, ...arguments]  // 这里的arguments是Fn函数内部的
@@ -60,8 +59,8 @@ function oldFn() {
 }
 
 function newFn() {
-  
+
 }
-console.log(oldFn.myCall(newFn, 5, 6), '----');
-console.log(oldFn.myApply(newFn, [1, 2]), '----');
-console.log(oldFn.myBind(newFn, 3, 4)(3, 4), '----');
+console.log(oldFn.myCall(newFn, 5, 6), '----myCall');
+console.log(oldFn.myApply(newFn, [1, 2]), '----myApply');
+console.log(oldFn.myBind(newFn, 3, 4)(3, 4), '----myBind');
