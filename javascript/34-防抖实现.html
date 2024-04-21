@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input class="search" type="text" />
+</body>
+
+<script>
+  const search = document.querySelector('.search')
+
+  let counter = 0
+
+  const handleSearch = () => {
+    counter++
+    console.log(`发送${counter}次网络请求`);
+  }
+
+  // 简单版本
+  const debounce = (fn, delay) => {
+    let timer
+
+    return function () {
+      if (timer) clearTimeout(timer)
+
+      timer = setTimeout(() => {
+        fn.apply(this, arguments)
+      }, delay)
+    }
+  }
+
+  // 优化版本
+  const debounce2 = (fn, delay, immediate, resultCallback) => {
+    let timer = null
+    let isInvoke = false
+
+    const _debounce = function (...args) {
+      return new Promise((resolve, reject) => {
+        if (timer) clearTimeout(timer)
+
+        if (immediate && !isInvoke) {
+          const result = fn.apply(this, args)
+          if (resultCallback) resultCallback(result)
+          resolve(result)
+          isInvoke = true
+        } else {
+          timer = setTimeout(() => {
+            const result = fn.apply(this, args)
+            if (resultCallback) resultCallback(result)
+            resolve(result)
+            isInvoke = false
+            timer = null
+          }, delay)
+        }
+      })
+    }
+
+    _debounce.cancel = () => {
+      if (timer) clearTimeout(timer)
+      timer = null
+      isInvoke = false
+    }
+
+    return _debounce
+  }
+
+  const callbackFn = debounce2(handleSearch, 1000, false, (result) => {
+    console.log(result, '---result');
+    return result
+  })
+
+  search.addEventListener('input', callbackFn)
+
+  setTimeout(() => {
+    callbackFn.cancel()
+  }, 300)
+</script>
+</html>
