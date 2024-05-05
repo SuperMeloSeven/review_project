@@ -1,14 +1,28 @@
-const throttle = (fn, interval) => {
+const throttle = (fn, wait) => {
   let last = 0
+  let timer = null
 
   return function() {
-    let context = this
+    let self = this
     let args = arguments
     let now = +new Date()
 
-    if (now - last > interval) {
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    }
+
+    const remainWaitTime = wait - (now - last)
+
+    if (remainWaitTime <= 0) {
       last = now
       fn.apply(context, args)
+    } else {
+      timer = setTimeout(() => {
+        last = +new Date()
+        fn.apply(self, args)
+        timer = null
+      }, remainWaitTime)
     }
   }
 }
@@ -22,36 +36,19 @@ const debounce = (fn, delay) => {
   let timer = null
 
   return function () {
+    let self = this
+    let args = arguments
+
     if (timer) {
       clearTimeout(timer)
     }
     timer = setTimeout(() => {
-      fn.apply(this, arguments)
+      fn.apply(self, args)
+      timer = null
     }, delay)
   }
 }
 
-const betterDebounce = (fn, delay) => {
-  let timer = null
-  let last = 0
-
-  return function () {
-    let now = +new Date()
-
-    if (now - last < delay) {
-      timer && clearTimeout(timer)
-
-      timer = setTimeout(() => {
-        last = now
-        fn.apply(this, arguments)
-      }, delay)
-    } else {
-      last = now
-      fn.apply(this, arguments)
-    }
-  }
-}
-
-const debounceScroll = betterDebounce(scrollCallback, 1000)
+const debounceScroll = debounce(scrollCallback, 1000)
 
 document.addEventListener('scroll', debounceScroll)
