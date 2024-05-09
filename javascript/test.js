@@ -63,10 +63,25 @@
 // setVal(101)
 // console.log(obj, '---obj');
 
-const _new = function (fn, ...args) {
-  const obj = Object.create(fn.prototype);
-  // obj.__proto__ = fn.prototype;
-  const result = fn.apply(obj, args);
+// const _new = function (fn, ...args) {
+//   const obj = Object.create(fn.prototype);
+//   // obj.__proto__ = fn.prototype;
+//   const result = fn.apply(obj, args);
 
-  return result instanceof Object ? result : obj;
+//   return result instanceof Object ? result : obj;
+// }
+
+
+var foo = 1;
+function fn() {
+    // 此处修改的不是全局变量，而是函数内部的变量
+    foo = 3;
+    return;
+
+    // 函数声明提升
+    function foo() {
+        // todo
+    }
 }
+fn();
+console.log(foo); // 1
