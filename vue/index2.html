@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-like Two-way Binding</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="message">
+        <p>{{ message }}</p>
+    </div>
+
+    <script>
+        // 实现 Vue 实例
+        class Vue {
+            constructor(options) {
+                this.data = options.data;
+                this.el = document.querySelector(options.el);
+                this.bindings = [];
+
+                // 数据响应式
+                this.observe(this.data);
+
+                // 编译模板
+                this.compile(this.el);
+            }
+
+            // 将数据转换为响应式
+            observe(data) {
+                Object.keys(data).forEach(key => {
+                    let value = data[key];
+                    const bindings = [];
+
+                    Object.defineProperty(data, key, {
+                        get() {
+                            // 这里添加依赖
+                            if (Dep.target) {
+                                bindings.push(Dep.target);
+                            }
+                            return value;
+                        },
+                        set(newValue) {
+                            value = newValue;
+                            bindings.forEach(fn => fn());
+                        }
+                    });
+                });
+            }
+
+            // 编译模板
+            compile(el) {
+                const nodes = el.childNodes;
+                nodes.forEach(node => {
+                    if (node.nodeType === 1) { // 处理元素节点
+                        const attr = node.getAttribute('v-model');
+                        if (attr) {
+                            this.bindings.push({
+                                node,
+                                key: attr,
+                                update: () => {
+                                    node.value = this.data[attr];
+                                }
+                            });
+                            node.addEventListener('input', e => {
+                                this.data[attr] = e.target.value;
+                            });
+                        }
+                    } else if (node.nodeType === 3) { // 处理文本节点
+                        const text = node.textContent.trim();
+                        const regExp = /\{\{\s*(\w+)\s*\}\}/;
+                        const match = text.match(regExp);
+                        if (match) {
+                            const key = match[1];
+                            this.bindings.push({
+                                node,
+                                key,
+                                update: () => {
+                                    node.textContent = this.data[key];
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // 更新绑定
+                this.updateBindings();
+            }
+
+            // 更新所有绑定
+            updateBindings() {
+                this.bindings.forEach(binding => binding.update());
+            }
+        }
+
+        // 依赖管理
+        class Dep {
+            static target = null;
+        }
+
+        // 创建 Vue 实例
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }
+        });
+    </script>
+</body>
+</html>

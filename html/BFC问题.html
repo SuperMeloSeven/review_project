@@ -6,24 +6,28 @@
     <title>Document</title>
     <style>
     .left{
-        width: 100px;
-        height: 100px;
-        margin-bottom:50px;
+        width: 200px;
+        height: 200px;
+        margin-top:50px;
         background: red;
-        display: inline-block;
+        /* border: 1px solid transparent */
+        /* overflow: hidden; */
     }
     .right{
         width: 100px;
         height: 100px;
         margin-top:200px;
         background: blue;
-        overflow: hidden;
+        /* display: inline-block; */
+        /* position: fixed; */
+        float: left;
     }
     </style>
 </head>
 <body>
-    <div class="left"></div>
-<div class="right">
+    <div class="left">
+      <div class="right"></div>
+    </div>
 </div>
 </body>
 </html>

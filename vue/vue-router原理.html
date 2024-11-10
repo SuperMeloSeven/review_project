@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- <a href="javascript:toA();">A页面</a>
+  <a href="javascript:toB();">B页面</a> -->
+
+  <a href="#/a">A页面</a>
+<a href="#/b">B页面</a>
+  <div id="app"></div>
+</body>
+
+<!-- <script>
+  // history模式
+  function render() {
+    console.log(window.location.pathname, '---window.location.pathname');
+
+    app.innerHTML = window.location.pathname
+  }
+  function toA() {
+    history.pushState({}, null, '/a')
+    render()
+  }
+  function toB() {
+    history.pushState({}, null, '/b')
+    render()
+  }
+  window.addEventListener('popstate', render)
+</script> -->
+<script>
+  function render() {
+    console.log(window.location.hash, '---window.location.hash');
+    app.innerHTML = window.location.hash
+  }
+  window.addEventListener('hashchange', render)
+  render()
+</script>
+</html>

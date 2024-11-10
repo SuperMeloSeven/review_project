@@ -72,16 +72,60 @@
 // }
 
 
-var foo = 1;
-function fn() {
-    // 此处修改的不是全局变量，而是函数内部的变量
-    foo = 3;
-    return;
+// var foo = 1;
+// function fn() {
+//     // 此处修改的不是全局变量，而是函数内部的变量
+//     foo = 3;
+//     return;
 
-    // 函数声明提升
-    function foo() {
-        // todo
-    }
+//     // 函数声明提升
+//     function foo() {
+//         // todo
+//     }
+// }
+// fn();
+// console.log(foo); // 1
+
+
+// const o = Object.create({ x: 1, y: 2 })
+// o.z = 3
+
+// const { x, ...newObj } = o
+// const { y, z } = newObj
+
+// console.log(x, '---x');
+// console.log(y, '---y');
+// console.log(o.y, '---y');
+// console.log(z, '---z');
+
+// function* helloWorldGenerator() {
+//   yield 'hello';
+//   yield 'world';
+//   return 'ending';
+// }
+// var hw = helloWorldGenerator();
+
+// console.log(hw.next()); // { value: 'hello', done: false }
+// console.log(hw.next()); // { value: 'world', done: false }
+// console.log(hw.next()); // { value: 'ending', done: true }
+// console.log(hw.next()); // { value: undefined, done: true }
+
+// setTimeout(() => console.log(0));
+// new Promise((resolve) => {
+//   console.log(1);
+//   resolve(2);
+//   console.log(3);
+// }).then((o) => console.log(o));
+
+// new Promise((resolve) => {
+//   console.log(4);
+//   resolve(5);
+// })
+//   .then((o) => console.log(o))
+//   .then(() => console.log(6));
+
+
+function test() {
+  return [1, 2].forEach(val => val)
 }
-fn();
-console.log(foo); // 1
+ console.log(test(), '---test()');

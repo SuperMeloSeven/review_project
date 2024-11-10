@@ -1,0 +1,19 @@
+{
+	"name": "frontend-dev-cli",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"lerna-init": "lerna init",
+		"lerna-create": "lerna create",
+		"build": "tsc"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^22.5.3",
+		"lerna": "^8.1.8",
+		"typescript": "^5.5.4"
+	}
+}

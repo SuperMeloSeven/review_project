@@ -1,0 +1,32 @@
+{
+	"name": "@frontend-dev-cli/core",
+	"version": "0.0.0",
+	"description": "cli核心包",
+	"author": "huzhilei <huzhilei@delonix.group>",
+	"homepage": "https://github.com/SuperMeloSeven/review_project#readme",
+	"license": "ISC",
+	"main": "lib/core.js",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"publishConfig": {
+		"registry": "https://registry.npmmirror.com/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/SuperMeloSeven/review_project.git"
+	},
+	"scripts": {
+		"build": "tsc"
+	},
+	"bugs": {
+		"url": "https://github.com/SuperMeloSeven/review_project/issues"
+	},
+	"dependencies": {
+		"@frontend-dev-cli/utils": "^0.0.0"
+	}
+}

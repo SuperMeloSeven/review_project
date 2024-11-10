@@ -104,28 +104,49 @@
 //   console.log(err, '---err2');
 // })
 
-const p1 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    reject("111")
-  }, 1000);
-})
+// const p1 = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     reject("111")
+//   }, 1000);
+// })
 
-const p2 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("222")
-  }, 2000);
-})
+// const p2 = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve("222")
+//   }, 2000);
+// })
 
-const p3 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    reject("333")
-  }, 3000);
-})
+// const p3 = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     reject("333")
+//   }, 3000);
+// })
 
-Promise.any([p1, p2, p3]).then(res => {
-  console.log(res)
-}).catch(err => {
-  console.log("err:", err)
+// Promise.any([p1, p2, p3]).then(res => {
+//   console.log(res)
+// }).catch(err => {
+//   console.log("err:", err)
+// })
+
+
+new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("111")
+  }, 1000)
+}).then((res) => {
+  console.log(res, '---res');
+
+  setTimeout(() => {
+    throw new Error("错误1")
+  }, 2000)
+}).then((res) => {
+  console.log(res, '---res');
+
+  setTimeout(() => {
+    throw new Error("错误1")
+  }, 2000)
+}).catch((err) => {
+  console.log(err, '---err');
 })
 </script>
 </html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #000;
+      width: 500px;
+      height: 1000px;
+    }
+
+    .sticky {
+      background: orange;
+      position: sticky;
+      /* top: -1px; */
+      bottom: -1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  </div>
+  <div class="sticky">sticky</div>
+</body>
+<script>
+  const container = document.querySelector('.container');
+  const textNode = document.createElement('span')
+  let text = `<span>我是内容---开始</span>`
+  for (let i = 0; i < 50; i++) {
+    text += `<span>-----我是内容${i}\n</span>`
+
+    if (i === 49) {
+      text += `<span>我是内容---结束</span>`
+    }
+  }
+  textNode.textContent = text
+  container.textContent = text
+  container.appendChild(textNode)
+</script>
+</html>
